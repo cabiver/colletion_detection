@@ -151,25 +151,64 @@ var _Object = /*#__PURE__*/function () {
   }]);
 
   return Object;
+}();
+
+var circule = /*#__PURE__*/function () {
+  function circule(x, y, radius, color) {
+    _classCallCheck(this, circule);
+
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.color = color;
+  }
+
+  _createClass(circule, [{
+    key: "draw",
+    value: function draw() {
+      c.beginPath();
+      c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+      c.fillStyle = this.color;
+      c.fill();
+      c.closePath();
+    }
+  }, {
+    key: "update",
+    value: function update() {
+      this.x = mouse.x;
+      this.y = mouse.y;
+      this.draw();
+    }
+  }]);
+
+  return circule;
 }(); // Implementation
 
 
 var objects;
+var biggerCircule = new _Object(80, 80, 20, colors[1]);
+var circule1 = new circule(5, 5, 10, "red");
 
 function init() {
-  objects = [];
-
-  for (var i = 0; i < 400; i++) {// objects.push()
-  }
+  objects = [biggerCircule, circule1]; //for (let i = 0; i < 400; i++) {
+  // objects.push()
+  //}
 } // Animation Loop
 
 
 function animate() {
   requestAnimationFrame(animate);
-  c.clearRect(0, 0, canvas.width, canvas.height);
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y); // objects.forEach(object => {
-  //  object.update()
-  // })
+  c.clearRect(0, 0, canvas.width, canvas.height); //c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y)
+
+  objects.forEach(function (object) {
+    object.update();
+  }); //console.log(utils.distance(objects[0].x, objects[0].y, objects[1].x, objects[1].y))
+
+  if (_utils__WEBPACK_IMPORTED_MODULE_0___default.a.distance(objects[0].x, objects[0].y, objects[1].x, objects[1].y) < objects[0].radius + objects[1].radius) {
+    objects[0].color = colors[3];
+  } else {
+    objects[0].color = colors[1];
+  }
 }
 
 init();
